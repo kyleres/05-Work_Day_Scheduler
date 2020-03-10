@@ -7,55 +7,56 @@ function formatTime() {
 
 $(document).ready(function() {
 
+    //Save Event Function
+    $("textarea").each(function() {
+        $(this).attr("id", "event" + $(this).parent().attr("id"));
+    });
+
+    $(".save").on("click", function() {
+        let eventText = $(this).parent().siblings().children("textarea").val();
+        let eventID = $(this).parent().siblings().children("textarea").attr("id");
+        localStorage.setItem(eventID, eventText);
+    });
+
+    $("textarea").each(function() {
+        let eventID = $(this).attr("id");
+        let eventText = localStorage.getItem(eventID);
+        if (eventText !== null) {
+            $("#" + eventID).val(eventText)
+        };
+    });
+
+    //Clear Event Function
+    $(".clear").on("click", function(){
+        let textArea = $(this).parent().siblings().children("textarea");
+        let eventID = $(this).parent().siblings().children("textarea").attr("id");
+        textArea.val("");
+        localStorage.setItem(eventID, textArea.val());
+    });
+
     //Update Time Function
     function updateTime() {
-        let momentHour = moment().hour();
+        let momentHour = moment().hour();;
 
         $(".hourRow").each(function() {
-            let currentHour = $(this).attr("id")
+            let currentHour = $(this).attr("id");
+            let buttonRow = $(this).siblings().children();
+            let textArea = $(this).children("textarea");
+            let eventID = $(this).children("textarea").attr("id");
             
             if (currentHour < momentHour) {
                 $(this).children().css("background-color", "grey");
-                $(this).siblings().children().css("background-color", "grey");
-                $(this).siblings().children().prop("disabled", true);
+                textArea.prop("disabled", true);
+                textArea.val("");
+                localStorage.setItem(eventID, textArea.val());
+                buttonRow.css("background-color", "grey");
+                buttonRow.prop("disabled", true);
             } else if (currentHour == momentHour) {
-                $(this).children("div").css("background-color", "maroon");
-                $(this).children("textarea").css("background-color", "#fff982");
-            }
-        })
-    }
-
-    //Save Event Function (https://stackoverflow.com/questions/39155511/html-save-text-in-textarea)
-    // function saveEvent() {
-
-        
-    //     $(".event").each(function() {
-    //         let eventText = $(this).val();
-    //         let eventID = $(this).attr("id");
-    //         localStorage.setItem(eventID, eventID + eventText)
-    //         console.log(eventID)
-    //     })
-    // }
-
-   
-    $("textarea").each(function() {
-        let eventText = $(this).val();
-        let eventID = $(this).attr("id", "event" + $(this).parent().attr("id"));
-        console.log(eventID)
-
-        // $(this).parent().siblings().children("button").on("click", function() {
-        //     localStorage.setItem(eventID, eventText);
-        //     console.log(eventID)
-        // })
-    })
-
-    // $(".event").each(function() {
-    //     let eventID = $(this).attr("id");
-    //     let eventText = localStorage.getItem(eventID)
-    //     if (eventText !== null) {
-    //         $("#" + eventID).val(eventText)
-    //     }
-    // })
+                $(this).children("div").css("background-color", "red");
+                textArea.css("background-color", "#fff982");
+            };
+        });
+    };
 
     updateTime()
 });
