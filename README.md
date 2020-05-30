@@ -1,4 +1,4 @@
-# 05-Homework - Work Day Scheduler
+# 05-Homework - [Work Day Scheduler](https://kyleres.github.io/05-Work_Day_Scheduler/)
 
 ## Introduction
 For this homework assignment, we were tasked with creating a work day scheduler that fulfills the criteria below. My knowledge of third-party APIs, JQuery, and local storage were put to the test when developing this application.
